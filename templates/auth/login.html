@@ -1,0 +1,54 @@
+{% extends "../base_login.html" %}
+
+{% block body %}
+<div class="container">
+
+ <div class="col-sm-6 col-md-4 col-md-offset-4" style="padding-top: 5%;">
+	    <div class="panel panel-default">
+	        <div class="panel-heading">
+	            <h2 style="text-align: center">  Sign in</h2>
+	        </div> <!-- panel-heading -->
+	        <div class="panel-body">
+	            <form role="form" action="/login" method="POST">
+	                <fieldset>
+	                    <div class="row" style="text-align: center">
+	                        <div class="center-block profile-img">
+	                            <span class="fa-stack fa-4x">
+	                                <i class="fa fa-circle fa-stack-2x"></i>
+	                                <i class="fa fa-user fa-stack-1x" style="color:#eee;"></i>
+	                            </span>
+	                        </div> <!-- center-block -->
+	                    </div> <!-- row -->
+	                    <div class="row">
+	                        <div class="col-sm-12 col-md-10  col-md-offset-1 ">
+	                            <div class="form-group">
+	                                <div class="input-group">
+	                                    <span class="input-group-addon">
+	                                        <i class="fa fa-envelope"></i>
+	                                    </span>
+	                                    <input class="form-control" placeholder="Username"  name="username" type="text" autofocus>
+	                                </div> <!-- input-group -->
+	                            </div> <!-- form-group -->
+	                            <div class="form-group">
+	                                <div class="input-group">
+	                                    <span class="input-group-addon">
+	                                        <i class="fa fa-expeditedssl"></i>
+	                                    </span>
+	                                    <input class="form-control" placeholder="Password" name="password" type="password">
+	                                    <input type="hidden" name="next" value="{{ next }}" />
+	                                </div> <!-- input-group-addon -->
+	                            </div> <!-- input-group --> <br>
+	                            <div class="form-group">
+                                    {% module xsrf_form_html() %}
+	                                <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign in" >
+	                            </div> <!-- form-group -->
+	                        </div> <!-- col-sm-12 col-md-10 -->
+	                    </div> <!-- row -->
+	                </fieldset>
+	            </form>
+	        </div> <!-- panel-body -->
+	    </div> <!-- panel -->
+	</div> <!-- col-sm-6 col-md-4 col-md-offset-4 -->
+
+</div>
+{% end %}

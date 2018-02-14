@@ -1,0 +1,231 @@
+<html ng-app="spandanam">
+<head>
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv="x-ua-compatible" content="IE=9" /><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Amrita Spandanam Remote Patient Monitoring{% end %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/font-awesome.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/bootstrap-timepicker.min.css') }}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script type="text/javascript" src="{{ static_url('js/jquery-1.12.0.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/bootstrap-timepicker.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/jquery-ui.css') }}">
+    <script type="text/javascript" src="{{ static_url('js/jquery-ui.js') }}"></script>
+
+    <script src=" {{ static_url('js/angular.js') }}"></script>
+    <script src="{{ static_url('js/app.module.js') }}"></script>
+    <script src="{{ static_url('js/app.config.js') }}"></script>
+    <script src="{{ static_url('js/angular-route.js') }}"></script>
+    <script src="{{ static_url('js/patient-list/patient-list.component.js') }}"></script>
+    <script src="{{ static_url('js/patient-list/patient-list.component.spec.js') }}"></script>
+    <script src="{{ static_url('js/patient-list/patient-list.module.js') }}"></script>
+    <script src="{{ static_url('js/patient-detail/patient-detail.module.js') }}"></script>
+    <script src="{{ static_url('js/patient-detail/patient-detail.component.js') }}"></script>
+    <script src="{{ static_url('js/sensor-display/sensor-display.component.js') }}"></script>
+    <script src="{{ static_url('js/sensor-display/sensor-display.module.js') }}"></script>
+    <script src="{{ static_url('js/plotly-latest.min.js') }}"></script>
+</head>
+<body>
+<div class="container">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Amrita Spandanam Remote Patient Monitoring</a>
+            </div>
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="#" data-toggle="modal" data-target="#basicModal"><span
+                        class="glyphicon glyphicon-plus text-warning"></span>Add patient</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#basicFile"><span
+                        class="glyphicon glyphicon-plus text-warning"></span>Add log</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Hi {{ escape(results) }}</a></li>
+
+                <li><a href="../logout"><span class="glyphicon glyphicon-log-out"></span> Signout</a></li>
+            </ul>
+
+            <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-plus"></span>Add
+                                patient</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <form class="form form-group has-success" action="/addPatient" method="post">
+
+
+                                <div class="form-group">
+                                    <label for="mrd">Medical Record Number</label>
+                                    <input type="text" class="form-control" name="mrd"
+                                           placeholder="Medical record no" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" name="name" placeholder="Name"
+                                           required>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="age">Age</label>
+                                    <input type="number" class="form-control" name="age"
+                                           placeholder="Enter the patient's age" required>
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label>Gender</label>
+                                    <input type="radio" name="gender" value="M" required> Male
+                                    <input type="radio" name="gender" value="F" required> Female
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <input type="text" class="form-control" name="address"
+                                           placeholder="Enter the patient's address" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phoneNumber">Phone Number</label>
+                                    <input type="number" class="form-control" name="phoneNumber"
+                                           placeholder="Enter the patient's phone number" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="bloodGroup">Blood group</label>
+                                    <select name="bloodGroup" class="form-control">
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="dateOfReg">Date of Registration</label>
+                                    <input type="date" data-date-format="yyyy-mm-dd" class="form-control"
+                                           name="dateOfReg"
+                                           placeholder="Enter the patient's date of registration" required>
+                                </div>
+
+
+                                <button type="submit" class="btn btn-success">Submit</button>
+
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal" id="basicFile" tabindex="-1" role="dialog" aria-labelledby="basicFile"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel"><span
+                                    class="glyphicon glyphicon-plus"></span>Add
+                                file</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <form enctype="multipart/form-data" class="form form-group has-success" action="/addFile"
+                                  method="post">
+
+                                <div class="form-group">
+                                    <label for="mrd">Medical Record No:</label>
+                                    <input type="text" class="form-control" name="mrd"
+                                           placeholder="Enter the Medical Record no." required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="type">Choose sensor type</label>
+                                    <select name="type" class="form-control">
+                                        <option value="BP">BP</option>
+                                        <option value="ECG">ECG</option>
+                                        <option value="IHR">IHR</option>
+                                        <option value="SPO2">SPO2</option>
+                                        <option value="AHE Predict">AHE_Predict</option>
+                                        <option value="AHE Classify">AHE_Classify</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="start_date">Start date</label>
+                                    <input type="date" class="form-control" name="start_date"
+                                           placeholder="Enter the starting date"
+                                           data-date-format="yyyy-mm-dd"
+                                           required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="start_time">Start time</label>
+                                    <input type="time" step="1" class="form-control" name="start_time"
+                                           placeholder="Enter the starting time"
+                                           required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="end_date">End date</label>
+                                    <input type="date" class="form-control" name="end_date"
+                                           placeholder="Enter the ending date"
+                                           data-date-format="yyyy-mm-dd"
+                                           required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="end_time">End time</label>
+                                    <input type="time" step="1" class="form-control" name="end_time"
+                                           placeholder="Enter the ending time"
+                                           required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="filePath">Choose File</label>
+                                    <input type="file" class="form-control" name="filearg" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-success">Submit</button>
+
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="row" id="alertDismiss">
+        {% block alertNew %}{% end %}
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <patient-list></patient-list>
+        </div>
+        <div class="col-md-8">
+            <div ng-view></div>
+        </div>
+
+    </div>
+</div>
+{% include 'fixed_footer.html' %}
+</body>
+</html>

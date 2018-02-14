@@ -1,0 +1,55 @@
+<head>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h3><span class="label label-default">Patient List</span></h3>
+               <input type="text" class="form-control" placeholder="Search Patients Here..." ng-model="$ctrl.query"/>
+            </ul>
+
+            <div class="list-group">
+
+                <div class="patients">
+                    <div ng-repeat="patient in $ctrl.patients | filter:$ctrl.query">
+                        <a href=".#!/patients/{{ patient[0] }}"
+                           class="list-group-item list-group-item-success">
+                            {{ patient[0] }} {{ patient[1] }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+<style>
+  .highlight {
+    background-color: cyan;
+    font-weight: bold;
+}
+</style>
+
+<ul >
+    <li>
+        <a href="#" class="thumbnail">
+            <img class="giftthumb" src='thumb1.jpg' alt="">
+            <span class="gifttitle">Thumb1</span>
+        </a>
+    </li>
+    <li>
+        <a href="#" class="thumbnail">
+            <img class="giftthumb" src='thumb2.jpg' alt="">
+            <span class="gifttitle">Thumb3</span>
+        </a>
+    </li>
+    <li>
+        <a href="#" class="thumbnail">
+            <img class="giftthumb" src='thumb3.jpg' alt="">
+            <span class="gifttitle">Thumb3</span>
+        </a>
+    </li>
+</ul>
+-->

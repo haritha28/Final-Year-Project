@@ -1,0 +1,22 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "description": "graphical visual",
+  "main": "angular-route.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "n3"
+  ],
+  "author": "Joyce",
+  "license": "ISC",
+  "dependencies": {
+    "n3-charts": "^2.0.28"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "spandanam"
+  }
+}

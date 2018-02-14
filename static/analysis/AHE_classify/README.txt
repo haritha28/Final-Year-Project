@@ -1,0 +1,16 @@
+README
+Author  : Durga P (durga.amr@gmail.com)
+Date    : 5 June 2017
+
+Files in this folder
+====================
+1.svm_train_AHE_classification_model.py : 
+	This code creates the model for classification of patients as AHE or not, using the file 
+	"h1-h2-c1-60-min-after-to-svm-training.csv."
+	"svm-model-0.pkl" is the model thus created.
+
+2. svm_analyze_AHE.py
+	Use this code to classify patient abp data as AHE or not, using abp data of the patient.
+
+3. wrapper_analyze_AHE_abp
+	This code calls the function svm_analyze_AHE to classify the patients.

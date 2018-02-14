@@ -1,0 +1,108 @@
+<script>
+    var value = 0;
+    var idValue, typeSelected, timeSelected;
+    function realTime(a) {
+        idValue = a;
+
+    }
+
+    function day() {
+        idValue = 2;
+    }
+
+    function allTime() {
+        idValue = 3;
+    }
+    function checkEntry() {
+        typeSelected = $("#selectSensor").val();
+        timeSelected = $("#selectTime").val();
+        if (timeSelected != "" && (typeSelected != ""))
+            idValue = 4;
+    }
+
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">Patient details
+                </div>
+                <div class="panel-body" ng-repeat="patient in $ctrl.patient | filter:$ctrl.mrd">
+                    <div class="btn-group">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Medical Record no:&nbsp;{{ patient[0] }} Name:&nbsp;{{ patient[1] }}
+
+                        </button>
+                        <li class="list-group-item-info">
+                            <strong>Age:&nbsp;</strong>{{ patient[2] }}
+                        </li>
+                        <li class="list-group-item-text">
+                            <strong>Gender:&nbsp;</strong>{{ patient[3] }}
+                        </li>
+                        <li class="list-group-item-info">
+                            <strong>Address:&nbsp;</strong>{{ patient[4] }}</li>
+                        <li class="list-group-item-text">
+                            <strong>Phone Number:&nbsp;</strong>{{ patient[5] }}</li>
+                        <li class="list-group-item-info"><strong>Blood
+                            Group:&nbsp;</strong>{{ patient[6] }}</li>
+                        <li class="list-group-item-text">
+                            <strong>Date of Registration:&nbsp;</strong>{{ patient[7] }}</li>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">Show data
+                </div>
+                <div class="panel-body" ng-repeat="patient in $ctrl.patient | filter:$ctrl.mrd">
+
+
+                    <form>
+                        <div class="form-group">
+                            <label class="control-label " for="company">Choose the required data</label>
+                            <div>
+                                <select id="selectSensor" class="form-control">
+                                    <option>Select sensor type</option>
+                                </select>
+                                <select id="selectTime" class="form-control">
+                                    <option>Select timestamp</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="container">
+                            <div class="row">
+
+                                <a class="btn btn-success" onClick='checkEntry();'
+                                   href=".#!/patients/{{ patient[0] }}/plot/#"
+                                   role="button">Show</a>
+
+                                <a class="btn btn-success" onClick='realTime(1);'
+                                   href=".#!/patients/{{ patient[0] }}/plot"
+                                   role="button">Real time</a>
+                                <a class="btn btn-success" onClick='realTime(2);'
+                                   href=".#!/patients/{{ patient[0] }}/plot"
+                                   role="button">24 hour</a>
+                                <a class="btn btn-success" onClick='realTime(3);'
+                                   href=".#!/patients/{{ patient[0] }}/plot" role="button">All time</a>
+
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+
+
+            </div>
+        </div>
+        <div class="clearfix visible-lg"></div>
+    </div>
+</div>

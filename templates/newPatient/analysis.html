@@ -1,0 +1,134 @@
+<html ng-app="spandanam">
+<head>
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv="x-ua-compatible" content="IE=9" /><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Amrita Spandanam Remote Patient Monitoring{% end %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/font-awesome.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/bootstrap-timepicker.min.css') }}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script type="text/javascript" src="{{ static_url('js/jquery-1.12.0.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/bootstrap-timepicker.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/jquery-ui.css') }}">
+    <script type="text/javascript" src="{{ static_url('js/jquery-ui.js') }}"></script>
+
+    <script src=" {{ static_url('js/angular.js') }}"></script>
+    <script src="{{ static_url('js/app.module.js') }}"></script>
+    <script src="{{ static_url('js/app.config.js') }}"></script>
+    <script src="{{ static_url('js/angular-route.js') }}"></script>
+    <script src="{{ static_url('js/patient-list/patient-list.component.js') }}"></script>
+    <script src="{{ static_url('js/patient-list/patient-list.component.spec.js') }}"></script>
+    <script src="{{ static_url('js/patient-list/patient-list.module.js') }}"></script>
+    <script src="{{ static_url('js/patient-detail/patient-detail.module.js') }}"></script>
+    <script src="{{ static_url('js/patient-detail/patient-detail.component.js') }}"></script>
+    <script src="{{ static_url('js/sensor-display/sensor-display.component.js') }}"></script>
+    <script src="{{ static_url('js/sensor-display/sensor-display.module.js') }}"></script>
+    <script src="{{ static_url('js/plotly-latest.min.js') }}"></script>
+    <script>
+
+        var value = 0;
+        var idValue, typeSelected, timeSelected;
+        function checkEntry() {
+            typeSelected = $("#selectSensor").val();
+            timeSelected = $("#selectTime").val();
+            if (timeSelected != "" && (typeSelected != ""))
+                idValue = 4;
+        }
+
+    </script>
+
+</head>
+<body>
+<div class="container">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Amrita Spandanam Remote Patient Monitoring</a>
+            </div>
+        </div>
+    </nav>
+
+ <div ng-app="spandanam" ng-controller="sensorDisplayController">
+<div class="container">
+    <div class="row">
+
+
+     <div class="col-md-4">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">Show data
+                </div>
+                <!--<div class="panel-body" ng-repeat="patient in $ctrl.patient | filter:$ctrl.mrd">-->
+
+
+                    <form enctype="multipart/form-data" class="form form-group has-success" action="/UploadNewLog"
+                                  method="post">
+                        <div class="form-group">
+                            <label class="control-label " for="type">Choose Sensor type</label>
+                                <select id="selectSensor" class="form-control" name="type">
+                                    <option value="BP">BP</option>
+                                    <option value="ECG">ECG</option>
+                                    <option value="IHR">IHR</option>
+                                    <option value="SPO2">SPO2</option>
+                                    <option value="AHE Predict">AHE_Predict</option>
+                                    <option value="AHE Classify">AHE_Classify</option>
+                                </select>
+                        </div>
+
+                        <div class= "form-group">
+                            <label for="filePath">Choose File</label>
+                            <input type="file" class="form-control" name="filearg" required>
+                        </div>
+
+
+                        <div class="container">
+                            <div class="row">
+
+                                <a class="btn btn-success" onClick='checkEntry();'
+                                   href= "/plot/#   " role="button">Show</a>
+
+                                <a class="btn btn-success"
+                                   role="button">Real time</a>
+
+                                <a class="btn btn-success"
+                                   role="button">24 hour</a>
+                                <a class="btn btn-success"
+                                   role="button">All time</a>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+
+            </div>
+        </div>
+
+
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-primary"  id="displayAnalytics">
+
+                <div class="panel-heading">Analysis <button class="btn-warning text-right" id="analyzeButton"></button>
+                </div>
+                <div class="panel-body" id="analyticsPanel">Click on the above button to get the result.</div>
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+
+
+</div>
+
+
+</body>
+</html>
