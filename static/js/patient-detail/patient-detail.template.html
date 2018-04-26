@@ -1,5 +1,17 @@
 <script>
-    var value = 0;
+    function checkDropValue() {
+    var x = $('#selectSensor').find(':selected').text();
+
+    if (x!=='ECG'){
+        alert("PLease select ECG!");
+    }
+    else {
+           $('#MyButt').attr('data-target',"#basicGraph");
+    }
+
+}
+
+var value = 0;
     var idValue, typeSelected, timeSelected;
     function realTime(a) {
         idValue = a;
@@ -16,7 +28,7 @@
     function checkEntry() {
         typeSelected = $("#selectSensor").val();
         timeSelected = $("#selectTime").val();
-        if (timeSelected != "" && (typeSelected != ""))
+        if (timeSelected !== "" && (typeSelected !== ""))
             idValue = 4;
     }
 
@@ -65,10 +77,16 @@
 
                     <form>
                         <div class="form-group">
-                            <label class="control-label " for="company">Choose the required data</label>
+                            <label class="control-label">Choose the required data</label>
                             <div>
-                                <select id="selectSensor" class="form-control">
-                                    <option>Select sensor type</option>
+                                <select id="selectSensor" class="form-control" name="type">
+                                    <option>Select Sensor Type</option>
+                                    <option value="BP">BP</option>
+                                    <option value="ECG">ECG</option>
+                                    <option value="IHR">IHR</option>
+                                    <option value="SPO2">SPO2</option>
+                                    <option value="AHE Predict">AHE_Predict</option>
+                                    <option value="AHE Classify">AHE_Classify</option>
                                 </select>
                                 <select id="selectTime" class="form-control">
                                     <option>Select timestamp</option>
@@ -84,9 +102,11 @@
                                    href=".#!/patients/{{ patient[0] }}/plot/#"
                                    role="button">Show</a>
 
-                                <a class="btn btn-success" onClick='realTime(1);'
-                                   href=".#!/patients/{{ patient[0] }}/plot"
+                                <a id='MyButt' class="btn btn-success" onclick="checkDropValue();"
+                                   href="#" data-toggle="modal" data-target="#"
                                    role="button">Real time</a>
+
+
                                 <a class="btn btn-success" onClick='realTime(2);'
                                    href=".#!/patients/{{ patient[0] }}/plot"
                                    role="button">24 hour</a>
@@ -96,6 +116,7 @@
                             </div>
 
                         </div>
+
                     </form>
 
                 </div>

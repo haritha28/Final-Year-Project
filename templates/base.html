@@ -29,6 +29,7 @@
     <script src="{{ static_url('js/sensor-display/sensor-display.component.js') }}"></script>
     <script src="{{ static_url('js/sensor-display/sensor-display.module.js') }}"></script>
     <script src="{{ static_url('js/plotly-latest.min.js') }}"></script>
+
 </head>
 <body>
 <div class="container">
@@ -39,7 +40,7 @@
             </div>
             <ul class="nav navbar-nav navbar-left">
                 <li><a href="#" data-toggle="modal" data-target="#basicModal"><span
-                        class="glyphicon glyphicon-plus text-warning"></span>Add patient</a></li>
+                        class="glyphicon glyphicon-plus text-warning"></span>Add Patient</a></li>
                 <li><a href="#" data-toggle="modal" data-target="#basicFile"><span
                         class="glyphicon glyphicon-plus text-warning"></span>Add log</a></li>
 
@@ -50,14 +51,31 @@
                 <li><a href="../logout"><span class="glyphicon glyphicon-log-out"></span> Signout</a></li>
             </ul>
 
-            <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal"
-                 aria-hidden="true">
+                        <div class="modal fade" id="basicGraph" tabindex="-1" role="dialog" aria-labelledby="basicGraph"
+                 aria-hidden="false">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-plus"></span>Add
-                                patient</h4>
+                            <h4 class="modal-title" id="myModalLabelgraph"><span class="glyphicon glyphicon-plus"></span>Real Data Graph</h4>
+                        </div>
+                        <div class="modal-body">
+                    <div class='wrap'>
+                        <iframe src="/static/graph.html" style="border:none;" width="1150" height="600" scrolling="no"></iframe>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal"
+                 aria-hidden="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabelpat"><span class="glyphicon glyphicon-plus"></span>Add patient</h4>
                         </div>
                         <div class="modal-body">
 
@@ -67,7 +85,7 @@
                                 <div class="form-group">
                                     <label for="mrd">Medical Record Number</label>
                                     <input type="text" class="form-control" name="mrd"
-                                           placeholder="Medical record no" required>
+                                           placeholder="Medical record Number" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Name</label>
@@ -156,7 +174,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="type">Choose sensor type</label>
+                                    <label class="control-label ">Choose sensor type</label>
                                     <select name="type" class="form-control">
                                         <option value="BP">BP</option>
                                         <option value="ECG">ECG</option>

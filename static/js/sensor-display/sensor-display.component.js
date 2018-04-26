@@ -47,12 +47,13 @@ angular
             }
             result.then(function () {
 
+
+
                 var time = "";
                 console.log("Printing idValue here:" + idValue);
                 if (idValue == 1) {
                     update = 60;
                     time = "Real time "
-
                 }
                 else if (idValue == 2) {
                     update = 60 * 24;
@@ -84,6 +85,8 @@ angular
                 document.getElementById("analyzeButton").onclick = function displaySomething() {
                     document.getElementById("analyticsPanel").innerHTML = "We have send the above data for analysis. " +
                         "The results will appear here as soon as we get it!!"
+                    //addedextra: notworking
+                    console.log("Out");
 
                     if ($yValue === "ECG")
                         analyzeRoute = '/analyzeECGData';

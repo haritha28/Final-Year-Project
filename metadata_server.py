@@ -7,7 +7,6 @@ import tornado.options
 import tornado.web
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
-import random
 import json
 import socket, struct, sys
 from tornado import autoreload
@@ -17,12 +16,76 @@ import hello
 import static.analysis.AHE_predict.wrapper_analyze_AHE_abp as AHP
 import static.analysis.AHE_classify.wrapper_analyze_AHE_abp as AHC
 import static.analysis.sleep_apnea_IHR_web_Integration.wrapper_analyze_sleep_apnea_IHR as SF
-#import static.analysis.BP.wrapper_analyze_BP as BP
 
-
-import tornado.httpserver, tornado.ioloop, tornado.options, tornado.web, os.path, random, string
+import tornado.httpserver, tornado.options, tornado.web, os.path, random, string
 from tornado.options import define, options
+from tornado import ioloop, web, websocket
+from tornado.websocket import WebSocketClosedError
 
+import numpy as np
+import time
+
+
+x = np.arange(0, np.pi * 10, 0.1).tolist()
+y = np.sin(x).tolist()
+data_size = len(x)
+counter = 0
+graph_size = 100
+
+samples = 0
+tic = time.time()
+
+
+def get_graph_data():
+    global counter, data_size, graph_size, x, y
+    global samples, tic
+
+    # Calculate FPS
+    samples += 1
+    if (time.time() - tic) > 2:
+        print ("FPS is : ", samples / (time.time() - tic))
+        samples = 0
+        tic = time.time()
+
+    counter = counter + 1
+    if counter > (data_size - graph_size):
+        counter = 0
+
+    graph_to_send = json.dumps({
+        'x': x[counter:counter + graph_size],
+        'y': y[counter:counter + graph_size]
+    })
+    return graph_to_send
+
+
+class DefaultWebSocket(websocket.WebSocketHandler):
+    live_web_sockets = set()
+
+    def check_origin(self, origin):
+        return True
+
+    def open(self):
+        try:
+            self.set_nodelay(True)
+            self.live_web_sockets.add(self)
+            self.write_message("you've been connected. Congratz.")
+
+        except WebSocketClosedError:
+            self.live_web_sockets.remove(self)
+
+    def on_message(self, message):
+        try:
+            # get_graph_data()
+            [client.write_message(get_graph_data()) for client in self.live_web_sockets]
+            self.redirect('/real_time')
+            # self.send_message(get_graph_data())
+
+        except WebSocketClosedError:
+            self.live_web_sockets.remove(self)
+
+    def on_close(self):
+        self.live_web_sockets.remove(self)
+        return
 
 class LoginHandler(BaseHandler):
     username = ''
@@ -81,7 +144,8 @@ class Application(tornado.web.Application):
             tornado.web.url(r'/analyzeBPData', analyzeBPData),
             tornado.web.url(r'/addPatient', addPatientHandler),
             tornado.web.url(r'/addFile', addFileHandler),
-            tornado.web.url(r'/logout', LogoutHandler)
+            tornado.web.url(r'/logout', LogoutHandler),
+            tornado.web.url(r'/send_graph', DefaultWebSocket)
 
         ]
         settings = dict(
@@ -269,7 +333,7 @@ class emrHandler(BaseHandler):
         self.write(json.dumps(results, default=date_handler))
         self.finish()
 
-#Handler for ECG
+
 class analyzeECGData(BaseHandler):
     def post(self):
         dataRecieved = tornado.escape.xhtml_escape(self.request.body)
@@ -277,14 +341,13 @@ class analyzeECGData(BaseHandler):
         self.write(json.dumps(outputReturned))
 
 
-#Handler for SPO2
 class analyzeSPO2Data(BaseHandler):
     def post(self):
         dataRecieved = tornado.escape.xhtml_escape(self.request.body)
         outputReturned = hello.test(dataRecieved)
         self.write(json.dumps(outputReturned))
 
-#Handler for IHR
+
 class analyzeIHRData(BaseHandler):
     def post(self):
         dataRecieved = tornado.escape.xhtml_escape(self.request.body)
@@ -292,7 +355,7 @@ class analyzeIHRData(BaseHandler):
         AHIValue = SF.sendFile(file_path)
         self.write(json.dumps(AHIValue))
 
-#Handler for BP
+
 class analyzeBPData(BaseHandler):
     def post(self):
         dataRecieved = tornado.escape.xhtml_escape(self.request.body)
@@ -315,10 +378,6 @@ class analyzeAHECData(BaseHandler):
         dataRecieved = tornado.escape.xhtml_escape(self.request.body)
         file_path = self.request.body
         AHECvalue = AHC.wrapper_analyze_AHE_abp(file_path)
-        if AHECvalue == 'null':
-            AHECvalue = 0
-        else:
-            AHECvalue = 1
         self.write(json.dumps(AHECvalue))
 
 

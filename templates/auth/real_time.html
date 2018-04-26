@@ -1,0 +1,98 @@
+<html>
+
+
+<!-- Plotly.js -->
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js">
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js">
+</script>
+
+<script>
+
+ws = new WebSocket("ws://localhost:9998/send_graph");
+
+var request_data_interval;
+
+ws.onopen = function()
+
+{
+
+// Web Socket is connected, send data using send()
+
+ws.send(generateRandomNumber(6));
+
+
+request_data_interval = window.setInterval(requestData, 500);
+
+
+};
+
+
+ws.onmessage = function (evt)
+
+{
+
+var received_msg = evt.data;
+
+
+data = JSON.parse(evt.data);
+
+var my_plot = {
+
+x: data.x,
+
+y: data.y,
+
+type: 'scatter'
+
+};
+
+Plotly.newPlot('sine-graph', [my_plot]);
+
+};
+
+
+ws.onclose = function()
+
+{
+
+// websocket is closed.
+
+window.clearInterval(request_data_interval)
+
+};
+
+
+
+function requestData()
+
+{
+ws.send(generateRandomNumber(1));
+ws.send("get-data");
+
+}
+
+function generateRandomNumber(elems) {
+    var min, max, highlightedNumber;
+    highlightedNumber=new Array(elems);
+    min = -1;
+    max = 1;
+    for (j=0;j < elems;j++)
+    {
+    highlightedNumber[j] = Math.random() * (max - min) + min;
+    }
+
+    return highlightedNumber;
+}
+</script>
+
+<body>
+
+</body>
+
+<div id="sine-graph" style="width: 1500px; height: 800px;">
+</div>
+
+</html>

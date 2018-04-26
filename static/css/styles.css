@@ -41,3 +41,17 @@
 .site-footer  p a:hover{
   border-bottom: 2px dotted #fff;
 }
+
+.wrap {
+    width: 1150px;
+    height: 600px;
+}
+
+iframe {
+    width: 100.00% !important;
+    height: 150.00% !important;
+    -webkit-transform: scale(1.0);
+    transform: scale(0.75);
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
